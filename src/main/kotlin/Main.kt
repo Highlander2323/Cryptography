@@ -2,6 +2,7 @@ package com.cybersecurity
 
 import java.io.File
 import java.io.FileNotFoundException
+import kotlin.random.Random
 
 object FileController {
     private const val INPUT_DIRECTORY = "E:\\Master\\Anul 2" +
@@ -38,7 +39,7 @@ object Cryptography {
             for (line in text) {
                 val normalizedText = line.uppercase()
                 val encrypted = StringBuilder()
-                for (i in 0..normalizedText.length - 1) {
+                for (i in normalizedText.indices) {
                     if (normalizedText[i] in 'A'..'Z') {
                         var c = normalizedText[i] - 'A'
                         if (encryptMode) {
@@ -71,11 +72,11 @@ object Cryptography {
                     throw NumberFormatException()
                 }
             }
-            var encryptedList: MutableList<String> = mutableListOf()
+            val encryptedList: MutableList<String> = mutableListOf()
             //make all characters uppercase for ease of use in the algorithm
             for (line in text) {
                 val normalizedText = line.uppercase()
-                var encrypted = StringBuilder()
+                val encrypted = StringBuilder()
                 var it = 0
                 for (i in 0..normalizedText.length - 1) {
                     if (normalizedText[i] in 'A'..'Z') {
@@ -109,7 +110,7 @@ object Cryptography {
         //make all characters uppercase for ease of use in the algorithm
         for (line in text) {
             val normalizedText = line.uppercase()
-            var encrypted = StringBuilder()
+            val encrypted = StringBuilder()
             var it = 0
             for (i in 0..normalizedText.length - 1) {
                 if (normalizedText[i] in 'A'..'Z') {
@@ -133,16 +134,67 @@ object Cryptography {
         }
         return encryptedList
     }
+
+    //we don't care about uppercase necessarily, we leave the option for the user to obfuscate his text as much as
+    //he wants
+    fun transBox(text: String, box: Map<Int,Int>, encryptionMode:Boolean = true): String{
+        val newText = CharArray(box.size)
+        var it = 1
+        while(it <= box.size){
+            if(encryptionMode) {
+                newText[box[it]!!-1] = text[it - 1]
+            }
+            else{
+                newText[it-1] = text[box[it]!!-1]
+            }
+            it++
+        }
+        val transposed = StringBuilder()
+        for(element in newText){
+            transposed.append(element)
+        }
+        return transposed.toString()
+    }
 }
 
+
+
 object Examples {
-    fun run_caesar() {
+
+    // method for generating a transposition box
+    private fun generateBox(seed: String ,length: Int): Map<Int, Int>{
+        val box: MutableMap<Int, Int> = mutableMapOf()
+        var sum = 0
+        for(c in seed) sum += c.code
+        //randomizer with seed, needed for algorithm
+        val randomGenerator = Random(sum)
+        val numsLeft: MutableList<Int> = mutableListOf()
+        //we need a list with every number that is left. Numbers denote positions
+        for(num in 1..length){
+            numsLeft.add(num)
+        }
+        var it = 1
+        while(numsLeft.isNotEmpty()){
+            //here we build the box.
+            //e.g. if randomizer chooses number 11 in the first iteration, the first letter in the original text
+            //will be on the 11th position in the transposed text
+            val num = randomGenerator.nextInt(0, numsLeft.size)
+            box[it] = numsLeft[num]
+            numsLeft.removeAt(num)
+            it++
+        }
+        return box
+    }
+
+    // simple caesar algorithm
+    fun run_caesar(mode: Boolean) {
         var text = FileController.readFileLines("caesar.txt")
-        text = Cryptography.caesar(text, 23, true)
+        text = Cryptography.caesar(text, 23, mode)
         FileController.writeFileLines("caesar_output.txt", text)
     }
 
-    fun run_better_caesar() {
+    // better caesar; each letter has another shift step
+    fun run_better_caesar(mode: Boolean) {
         val fileContent = FileController.readFileLines("better_caesar.txt")
         val keyString = fileContent[0].split(",")
         val key: MutableList<Int> = mutableListOf()
@@ -153,28 +205,93 @@ object Examples {
         for (it in 1..fileContent.size - 1) {
             text.add(fileContent[it])
         }
-        val output: List<String> = Cryptography.betterCaesar(text, key, false)
+        val output: List<String> = Cryptography.betterCaesar(text, key, mode)
         FileController.writeFileLines("better_caesar_output.txt", output)
     }
 
-    fun run_vigenere() {
+    // Vigenere algorithm
+    fun run_vigenere(mode: Boolean) {
         val fileContent = FileController.readFileLines("vigenere.txt")
         val key = fileContent[0]
         val text: MutableList<String> = mutableListOf()
         for (it in 1..fileContent.size - 1) {
             text.add(fileContent[it])
         }
-        val output: List<String> = Cryptography.vigenere(text, key, false)
+        val output: List<String> = Cryptography.vigenere(text, key, mode)
         FileController.writeFileLines("vigenere_output.txt", output)
+    }
+
+    fun run_trans_box(mode: Boolean) {
+        println("Enter text:")
+        val text = readln()
+        println("Enter key (randomization seed):")
+        val seed = readln()
+        val key = generateBox(seed, text.length)
+        val output: String = Cryptography.transBox(text, key, mode)
+        println(output)
+    }
+}
+
+enum class AlgorithmOption{QUIT, CAESAR, BETTER_CAESAR, VIGENERE, TRANS_BOX}
+
+fun printMenu(): AlgorithmOption?{
+    println("Choose the encryption algorithm:")
+    println("1. Caesar")
+    println("2. Better Caesar")
+    println("3. Vigenere")
+    println("4. Transposition Box")
+    println("0. Exit")
+    val option = readln()
+    return when(option){
+        "1" -> AlgorithmOption.CAESAR
+        "2" -> AlgorithmOption.BETTER_CAESAR
+        "3" -> AlgorithmOption.VIGENERE
+        "4" -> AlgorithmOption.TRANS_BOX
+        "0" -> AlgorithmOption.QUIT
+        else -> null
+    }
+}
+
+// Menu for choice of encryption/decryption
+fun printChoice(): Int{
+    println("Choose option:")
+    println("1. Encrypt")
+    println("2. Decrypt")
+    println("Any. Back")
+    val option = readln()
+    return when(option){
+        "1" -> 1
+        "2" -> 2
+        else -> 0
     }
 }
 
 fun main() {
-    try {
-        Examples.run_caesar()
-        Examples.run_better_caesar()
-        Examples.run_vigenere()
-    } catch (e: FileNotFoundException) {
-        println("File not found.")
+        while(true) {
+            try {
+                val algorithm = printMenu()
+                if(algorithm != null) {
+                    if (algorithm == AlgorithmOption.QUIT)
+                        break
+                    val choice = printChoice()
+                    val mode: Boolean? = when (choice) {
+                        1 -> true
+                        2 -> false
+                        else -> null
+                    }
+                    if (mode != null) {
+                        when (algorithm) {
+                            AlgorithmOption.CAESAR -> Examples.run_caesar(mode)
+                            AlgorithmOption.BETTER_CAESAR -> Examples.run_better_caesar(mode)
+                            AlgorithmOption.VIGENERE -> Examples.run_vigenere(mode)
+                            AlgorithmOption.TRANS_BOX -> Examples.run_trans_box(mode)
+                            else -> continue
+                        }
+                    }
+                }
+            }
+            catch (e: FileNotFoundException) {
+                println("File not found.")
+            }
     }
 }

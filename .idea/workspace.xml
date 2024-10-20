@@ -4,13 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d3f55e96-393a-4af8-ac0e-ca6be716b602" name="Changes" comment="Added cryptography">
-      <change afterPath="$PROJECT_DIR$/src/main/input_files/better_caesar.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/input_files/caesar.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/input_files/vigenere.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+    <list default="true" id="d3f55e96-393a-4af8-ac0e-ca6be716b602" name="Changes" comment="Added caesar, better caesar and vigenere">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/input_files/vigenere.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/input_files/vigenere.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/Main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/Main.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/output_files/vigenere_output.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/output_files/vigenere_output.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,18 +23,21 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "Highlander2323"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;Highlander2323&quot;
   }
-}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/Highlander2323/Cryptography.git",
-    "accountId": "ad6b8ae6-ab13-4d4b-9aaf-c6b95a4856ed"
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/Highlander2323/Cryptography.git&quot;,
+    &quot;accountId&quot;: &quot;ad6b8ae6-ab13-4d4b-9aaf-c6b95a4856ed&quot;
   }
-}]]></component>
+}</component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 4
 }</component>
@@ -75,7 +76,15 @@
       <option name="project" value="LOCAL" />
       <updated>1729332887728</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Added caesar, better caesar and vigenere">
+      <option name="closed" value="true" />
+      <created>1729370491680</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1729370491680</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -91,6 +100,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Added cryptography" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added cryptography" />
+    <MESSAGE value="Added caesar, better caesar and vigenere" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added caesar, better caesar and vigenere" />
   </component>
 </project>
